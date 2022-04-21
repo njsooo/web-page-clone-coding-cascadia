@@ -1,0 +1,8 @@
+@mixin vertical-bar($width, $height, $margin-left-right, $bg-color) {
+  content: "";
+  display: inline-block;
+  width: $width;
+  height: $height;
+  margin: 0 $margin-left-right;
+  background-color: $bg-color;
+}

@@ -1,0 +1,122 @@
+@mixin article-template() {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  transform: translateY(100%);
+  &.locate-prev {
+    transition: none;
+    transform: translateY(-100%);
+  }
+  &.on {
+    transform: translateY(0);
+  }
+  &.animate-move {
+    transition: transform 1.5s;
+    transform: translateY(0);
+    z-index: 1;
+  }
+  &.no-transition {
+    * {
+      transition: none !important;
+    }
+  }
+  @content;
+}
+
+@mixin slide-article-template($article-index) {
+  @include article-template;
+  .swiper-container {
+    height: 100%;
+    .swiper-pagination {
+      top: auto;
+      bottom: 0;
+      height: 9px;
+      background-color: rgb(255 255 255 / 30%);
+      .swiper-pagination-progressbar-fill {
+        background-color: $brown;
+      }
+    }
+    .swiper-slide {
+      overflow: hidden;
+      .bg-0 {
+        background: url("./assets/images/desktop/slide_#{$article-index}_0.png") no-repeat center / cover;
+      }
+      .bg {
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+        transition: transform 5s;
+      }
+      .text-area {
+        position: absolute;
+        top: 50%;
+
+        // 330 / 1920 * 100
+        left: 17.1875%;
+        color: #fff;
+        font-weight: 500;
+        font-size: 1.1875rem;
+        font-family: "Noto Serif KR", sans-serif;
+        text-shadow: 0 0 7px rgb(0 0 0 / 69%);
+        opacity: 0;
+        transition:
+          opacity 3s,
+          transform 3s;
+        transform: translateY(-20%);
+        br.mobile {
+          display: none;
+        }
+        .small {
+          font-size: 0.9375rem;
+        }
+      }
+    }
+  }
+  &.on {
+    .swiper-container {
+      .swiper-slide-active,
+      .swiper-slide-duplicate-active {
+        .bg {
+          transform: scale(1.04);
+        }
+        .text-area {
+          opacity: 1;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+  &.animate-move {
+    .swiper-container {
+      .swiper-slide-active,
+      .swiper-slide-duplicate-active {
+        .bg {
+          transition: none;
+        }
+        .text-area {
+          transition: none;
+        }
+      }
+    }
+  }
+  @include media-tablet-width {
+    .swiper-container {
+      .swiper-slide {
+        .text-area {
+          top: auto;
+          bottom: 25%;
+
+          // 60 / 800 * 100
+          left: 7.65%;
+          font-size: 0.8125rem;
+          br.desktop {
+            display: none;
+          }
+          br.mobile {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
